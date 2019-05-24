@@ -6,136 +6,197 @@
     android:layout_height="match_parent"
     tools:context=".GameActivity">
 
-    <ImageView
-        android:id="@+id/playerChoiceImageView"
-        android:layout_width="0dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="125dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="125dp"
-        app:layout_constraintBottom_toBottomOf="@+id/notificationTextView"
-        app:layout_constraintEnd_toStartOf="@+id/notificationTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout"
-        app:srcCompat="@drawable/question_mark" />
-
-    <ImageView
-        android:id="@+id/botChoiceImageView"
-        android:layout_width="0dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="125dp"
-        android:layout_marginBottom="125dp"
-        app:layout_constraintBottom_toBottomOf="@+id/notificationTextView"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
-        app:layout_constraintStart_toStartOf="@+id/scissorsImageButton"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout2"
-        app:srcCompat="@drawable/question_mark" />
-
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/infoContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="100dp"
-        android:orientation="vertical"
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal"
+        android:padding="8sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/scoreLimitTextView">
 
-        <TextView
-            android:id="@+id/playerNameTextView"
+        <LinearLayout
+            android:id="@+id/playerStatusContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="28sp" />
+            android:layout_marginRight="25sp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/playerPointsTextView"
+            <LinearLayout
+                android:id="@+id/playerPointsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/playerNameTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textAlignment="center"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/playerPointsTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textSize="28sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/playerChoiceImageView"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                app:srcCompat="@drawable/question_mark" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/botStatusContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="0"
-            android:textAlignment="center"
-            android:textSize="28sp" />
+            android:layout_marginLeft="25sp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/botPointsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/botNameTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:text="TextView"
+                    android:textAlignment="center"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/botPointsTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textSize="28sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/botChoiceImageView"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                app:srcCompat="@drawable/question_mark" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout">
-
-        <TextView
-            android:id="@+id/botNameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="28sp" />
-
-        <TextView
-            android:id="@+id/botPointsTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textAlignment="center"
-            android:textSize="28sp" />
-
-    </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/rockImageButton"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/rock_choice" />
-
-    <ImageButton
-        android:id="@+id/paperImageButton"
-        android:layout_width="110dp"
-        android:layout_height="0dp"
-        android:background="@android:color/transparent"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="@+id/scissorsImageButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/scissorsImageButton"
-        app:srcCompat="@drawable/paper_choice" />
-
-    <ImageButton
-        android:id="@+id/scissorsImageButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginEnd="22dp"
-        android:background="@android:color/transparent"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="@+id/rockImageButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/paperImageButton"
-        app:layout_constraintTop_toTopOf="@+id/rockImageButton"
-        app:srcCompat="@drawable/scissors_icon" />
 
     <TextView
         android:id="@+id/notificationTextView"
+        android:layout_width="247dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@+id/actionButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/choicesContainer" />
+
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="261dp"
-        android:text="TextView"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="9dp"
+        android:text="Choose your move:"
+        android:textAlignment="center"
         android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@+id/choicesContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoContainer" />
+
+    <TextView
+        android:id="@+id/scoreLimitTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="The score limit is: "
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/infoContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/actionButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notificationTextView" />
+
+    <LinearLayout
+        android:id="@+id/choicesContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="22dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/notificationTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <ImageButton
+            android:id="@+id/rockImageButton"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/rock_choice" />
+
+        <ImageButton
+            android:id="@+id/scissorsImageButton"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_marginLeft="20sp"
+            android:layout_marginRight="20sp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/scissors_icon" />
+
+        <ImageButton
+            android:id="@+id/paperImageButton"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/paper_choice" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

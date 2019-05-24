@@ -9,9 +9,20 @@ public class GameActivity extends AppCompatActivity {
 
     TextView playerNameTextView;
     TextView playerPointsTextView;
-    TextView notificationTextView;
+    TextView botNameTextView;
+    TextView botPointsTextView;
     ImageView playerChoiceImageView;
     ImageView botChoiceImageView;
+    TextView notificationTextView;
+
+    int pointLimit;
+    int playerPoints;
+    int botPoints;
+
+    private void updatePointsUI() {
+        playerPointsTextView.setText(String.valueOf(playerPoints));
+        botPointsTextView.setText(String.valueOf(botPoints));
+    }
 
 
     @Override
@@ -21,12 +32,23 @@ public class GameActivity extends AppCompatActivity {
 
         playerNameTextView = (TextView) findViewById(R.id.playerNameTextView);
         playerPointsTextView = (TextView) findViewById(R.id.playerPointsTextView);
+        botNameTextView = (TextView) findViewById(R.id.botNameTextView);
+        botPointsTextView = (TextView) findViewById(R.id.botPointsTextView);
         notificationTextView = (TextView) findViewById(R.id.notificationTextView);
 
-//        Bundle bundle = getIntent().getExtras();
-//        int value = -1; // or other values
+        Bundle bundle = getIntent().getExtras();
 //        if(bundle != null)
-//            value = bundle.getInt("key");
+        pointLimit = bundle.getInt("pointLimit");
+        playerNameTextView.setText(bundle.getString("playerName"));
+        botNameTextView.setText("Bot");
+
+        playerPoints = 0;
+        botPoints = 0;
+
+        updatePointsUI();
+
+
 
     }
+
 }
