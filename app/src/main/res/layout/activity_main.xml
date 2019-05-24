@@ -13,9 +13,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="369dp"
         android:contentDescription="@string/todo"
-        app:layout_constraintBottom_toTopOf="@+id/nameTextView"
+        app:layout_constraintBottom_toTopOf="@+id/startGameButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,34 +25,36 @@
         android:id="@+id/poimtLimitTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="68dp"
         android:text="@string/enter_point_limit"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/pointLimitInputField"
-        app:layout_constraintEnd_toEndOf="@+id/pointLimitInputField"
+        app:layout_constraintStart_toStartOf="@+id/pointLimitInputField"
         app:layout_constraintTop_toBottomOf="@+id/nameInputField" />
 
     <TextView
         android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="11dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="68dp"
         android:text="@string/enter_your_name"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/nameInputField"
-        app:layout_constraintEnd_toEndOf="@+id/nameInputField"
+        app:layout_constraintStart_toStartOf="@+id/nameInputField"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
     <EditText
         android:id="@+id/nameInputField"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="34dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/poimtLimitTextView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
 
@@ -60,12 +62,14 @@
         android:id="@+id/pointLimitInputField"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/poimtLimitTextView" />
 
@@ -73,24 +77,11 @@
         android:id="@+id/startGameButton"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="63dp"
         android:text="@string/start_game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="250dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/startGameButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pointLimitInputField" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
 </android.support.constraint.ConstraintLayout>
