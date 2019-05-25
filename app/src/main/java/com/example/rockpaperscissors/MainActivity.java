@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("playerName", nameInputField.getText().toString());
-                bundle.putInt("pointLimit", Integer.parseInt(pointLimitInputField.getText().toString()));
+                bundle.putString("userName", nameInputField.getText().toString());
+                bundle.putInt("roundLimit", Integer.parseInt(pointLimitInputField.getText().toString()));
                 intent.putExtras(bundle);
                 startActivity(intent);
                 finish();

@@ -7,16 +7,46 @@
     tools:context=".GameActivity">
 
     <LinearLayout
+        android:id="@+id/roundCounterContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/infoContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/roundTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10sp"
+            android:text="Round"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/roundCounterTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/infoContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="32dp"
         android:orientation="horizontal"
         android:padding="8sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintBottom_toTopOf="@+id/notificationTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scoreLimitTextView">
+        app:layout_constraintTop_toBottomOf="@+id/roundCounterContainer">
 
         <LinearLayout
             android:id="@+id/playerStatusContainer"
@@ -32,7 +62,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/playerNameTextView"
+                    android:id="@+id/userNameTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TextView"
@@ -40,9 +70,10 @@
                     android:textSize="24sp" />
 
                 <TextView
-                    android:id="@+id/playerPointsTextView"
+                    android:id="@+id/userPointsTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
                     android:text="0"
                     android:textAlignment="center"
                     android:textSize="28sp" />
@@ -50,9 +81,10 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/playerChoiceImageView"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:id="@+id/userChoiceImageView"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:scaleType="fitXY"
                 app:srcCompat="@drawable/question_mark" />
 
         </LinearLayout>
@@ -83,6 +115,7 @@
                     android:id="@+id/botPointsTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
                     android:text="0"
                     android:textAlignment="center"
                     android:textSize="28sp" />
@@ -91,8 +124,9 @@
 
             <ImageView
                 android:id="@+id/botChoiceImageView"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:scaleType="fitXY"
                 app:srcCompat="@drawable/question_mark" />
 
         </LinearLayout>
@@ -101,102 +135,65 @@
 
     <TextView
         android:id="@+id/notificationTextView"
-        android:layout_width="247dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textSize="28sp"
-        app:layout_constraintBottom_toTopOf="@+id/actionButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/choicesContainer" />
-
-    <TextView
-        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="9dp"
+        android:layout_marginBottom="16dp"
         android:text="Choose your move:"
         android:textAlignment="center"
-        android:textSize="28sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/choicesContainer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/infoContainer" />
-
-    <TextView
-        android:id="@+id/scoreLimitTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="The score limit is: "
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/infoContainer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/actionButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/notificationTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/choicesContainer" />
 
     <LinearLayout
         android:id="@+id/choicesContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="22dp"
+        android:layout_marginBottom="32dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/notificationTextView"
+        app:layout_constraintBottom_toTopOf="@+id/actionButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintTop_toBottomOf="@+id/notificationTextView">
 
         <ImageButton
-            android:id="@+id/rockImageButton"
+            android:id="@+id/rockChoiceButton"
             android:layout_width="110dp"
             android:layout_height="110dp"
             android:background="@android:color/transparent"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
             app:srcCompat="@drawable/rock_choice" />
 
         <ImageButton
-            android:id="@+id/scissorsImageButton"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:layout_marginLeft="20sp"
-            android:layout_marginRight="20sp"
-            android:background="@android:color/transparent"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/scissors_icon" />
-
-        <ImageButton
-            android:id="@+id/paperImageButton"
+            android:id="@+id/paperChoiceButton"
             android:layout_width="110dp"
             android:layout_height="110dp"
             android:background="@android:color/transparent"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
             app:srcCompat="@drawable/paper_choice" />
 
+        <ImageButton
+            android:id="@+id/scissorsChoiceButton"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/scissors_choice" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
