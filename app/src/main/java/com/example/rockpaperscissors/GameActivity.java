@@ -27,32 +27,60 @@ public class GameActivity extends AppCompatActivity {
     int roundCounter;
     int userPoints;
     int botPoints;
+    String availableAction;
+    String notificationMsg;
 
+    PlayerChoice userChoice;
+    PlayerChoice botChoice;
     boolean roundEnded;
 
+    private void enableUserChoiceIcons() {
+        rockChoiceImageButton.setEnabled(true);
+        paperChoiceImageButton.setEnabled(true);
+        scissorsChoiceImageButton.setEnabled(true);
+    }
+    private void disableUserChoiceIcons() {
+        rockChoiceImageButton.setEnabled(false);
+        paperChoiceImageButton.setEnabled(false);
+        scissorsChoiceImageButton.setEnabled(false);
+    }
+
+    private void performUserAction() {
+        if (!roundEnded) {
+            roundEnded = true;
+            playNextRound();
+            availableAction = "Next round!";
+            updateUI();
+        } else {
+            roundEnded = false;
+            notificationMsg = "Choose your move:";
+            availableAction = "Submit!";
+            updateUI();
+        }
+    }
 
     private void userWinsRound() {
         userPoints++;
-        notificationTextView.setText("You won this round!");
+        notificationMsg = "You won this round!";
 
     }
 
 
     private void botWinsRound() {
         botPoints++;
-        notificationTextView.setText("You lost this round!");
+        notificationMsg = "You lost this round!";
     }
 
 
     private void tieInRound() {
-        notificationTextView.setText("There is a tie!");
+        notificationMsg = "There is a tie!";
     }
 
 
-    private void playNextRound(PlayerChoice userChoice) {
+    private void playNextRound() {
 
         // First we get a random choice for the bot
-        PlayerChoice botChoice = PlayerChoice.getRandomChoice();
+        botChoice = PlayerChoice.getRandomChoice();
 
         // Then we determine the winner by comparing userChoice
         // and botChoice, based on the game's rules
@@ -91,6 +119,28 @@ public class GameActivity extends AppCompatActivity {
         roundCounterTextView.setText(String.valueOf(roundCounter));
         userPointsTextView.setText(String.valueOf(userPoints));
         botPointsTextView.setText(String.valueOf(botPoints));
+        notificationTextView.setText(notificationMsg);
+        actionButton.setText(availableAction);
+
+
+
+        if(roundEnded) {
+            disableUserChoiceIcons();
+
+            // Update the bot's choice icon with the current random choice
+            if (botChoice == PlayerChoice.ROCK) {
+                botChoiceImageView.setImageResource(R.drawable.rock_choice);
+            } else if (botChoice == PlayerChoice.PAPER) {
+                botChoiceImageView.setImageResource(R.drawable.paper_choice);
+            } else if (botChoice == PlayerChoice.SCISSORS) {
+                botChoiceImageView.setImageResource(R.drawable.scissors_choice);
+            }
+        } else {
+            enableUserChoiceIcons();
+
+            // Update the bot's choice icon with the question mark icon
+            botChoiceImageView.setImageResource(R.drawable.question_mark);
+        }
     }
 
 
@@ -114,6 +164,7 @@ public class GameActivity extends AppCompatActivity {
         rockChoiceImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                userChoice = PlayerChoice.ROCK;
                 userChoiceImageView.setImageResource(R.drawable.rock_choice);
             }
         });
@@ -121,6 +172,7 @@ public class GameActivity extends AppCompatActivity {
         paperChoiceImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                userChoice = PlayerChoice.PAPER;
                 userChoiceImageView.setImageResource(R.drawable.paper_choice);
             }
         });
@@ -128,15 +180,19 @@ public class GameActivity extends AppCompatActivity {
         scissorsChoiceImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                userChoice = PlayerChoice.SCISSORS;
                 userChoiceImageView.setImageResource(R.drawable.scissors_choice);
             }
         });
 
-        actionButton.setText("Submit!");
+        notificationMsg = "Choose your move:";
+
+        actionButton = findViewById(R.id.actionButton);
+        availableAction = "Submit!";
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                performUserAction();
             }
         });
 
