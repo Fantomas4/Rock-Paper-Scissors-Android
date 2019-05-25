@@ -33,6 +33,7 @@ public class GameActivity extends AppCompatActivity {
     PlayerChoice userChoice;
     PlayerChoice botChoice;
     boolean roundEnded;
+    boolean gameEnded;
 
     private void enableUserChoiceIcons() {
         rockChoiceImageButton.setEnabled(true);
@@ -46,16 +47,38 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void performUserAction() {
-        if (!roundEnded) {
+        // Check if the round limit has been reached
+        if (roundCounter == roundLimit) {
             roundEnded = true;
-            playNextRound();
-            availableAction = "Next round!";
-            updateUI();
+            if (userPoints > botPoints) {
+                gameEnded = true;
+                notificationMsg = "Congratulations! You are the king!";
+                availableAction = "Start a new game!";
+            } else if (userPoints < botPoints) {
+                gameEnded = true;
+                notificationMsg = "Oops! You have lost and now the bot is the king...";
+                availableAction = "Start a new game";
+            } else {
+                // We increment roundLimit by 1 so that an extra round is added until
+                // a clear winner occurs
+                roundLimit++;
+                notificationMsg = "Wow! There is a tie and the final round was reached! Adding extra round...";
+                availableAction = "Continue!";
+                roundCounter++;
+                updateUI();
+            }
         } else {
-            roundEnded = false;
-            notificationMsg = "Choose your move:";
-            availableAction = "Submit!";
-            updateUI();
+            if (!roundEnded) {
+                roundEnded = true;
+                playCurrentRound();
+                availableAction = "Continue!";
+                updateUI();
+            } else {
+                roundEnded = false;
+                notificationMsg = "Choose your move:";
+                availableAction = "Submit!";
+                updateUI();
+            }
         }
     }
 
@@ -77,8 +100,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    private void playNextRound() {
-
+    private void playCurrentRound() {
         // First we get a random choice for the bot
         botChoice = PlayerChoice.getRandomChoice();
 
@@ -122,24 +144,32 @@ public class GameActivity extends AppCompatActivity {
         notificationTextView.setText(notificationMsg);
         actionButton.setText(availableAction);
 
+        // Check if the game has ended or not
+        if (!gameEnded) {
+            // We check the round state we are currently in
+            if(roundEnded) {
+                disableUserChoiceIcons();
 
+                // Update the bot's choice icon with the current random choice
+                if (botChoice == PlayerChoice.ROCK) {
+                    botChoiceImageView.setImageResource(R.drawable.rock_choice);
+                } else if (botChoice == PlayerChoice.PAPER) {
+                    botChoiceImageView.setImageResource(R.drawable.paper_choice);
+                } else if (botChoice == PlayerChoice.SCISSORS) {
+                    botChoiceImageView.setImageResource(R.drawable.scissors_choice);
+                }
+            } else {
+                enableUserChoiceIcons();
 
-        if(roundEnded) {
-            disableUserChoiceIcons();
+                // Update the user's choice icon with the question mark icon
+                userChoiceImageView.setImageResource(R.drawable.question_mark);
 
-            // Update the bot's choice icon with the current random choice
-            if (botChoice == PlayerChoice.ROCK) {
-                botChoiceImageView.setImageResource(R.drawable.rock_choice);
-            } else if (botChoice == PlayerChoice.PAPER) {
-                botChoiceImageView.setImageResource(R.drawable.paper_choice);
-            } else if (botChoice == PlayerChoice.SCISSORS) {
-                botChoiceImageView.setImageResource(R.drawable.scissors_choice);
+                // Update the bot's choice icon with the question mark icon
+                botChoiceImageView.setImageResource(R.drawable.question_mark);
             }
         } else {
-            enableUserChoiceIcons();
-
-            // Update the bot's choice icon with the question mark icon
-            botChoiceImageView.setImageResource(R.drawable.question_mark);
+            disableUserChoiceIcons();
+            actionButton.setText(availableAction);
         }
     }
 
@@ -211,6 +241,7 @@ public class GameActivity extends AppCompatActivity {
         botPoints = 0;
 
         roundEnded = false;
+        gameEnded = false;
 
         updateUI();
 
