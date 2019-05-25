@@ -40,6 +40,7 @@ public class GameActivity extends AppCompatActivity {
         paperChoiceImageButton.setEnabled(true);
         scissorsChoiceImageButton.setEnabled(true);
     }
+
     private void disableUserChoiceIcons() {
         rockChoiceImageButton.setEnabled(false);
         paperChoiceImageButton.setEnabled(false);
@@ -47,39 +48,39 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void performUserAction() {
-        // Check if the round limit has been reached
-        if (roundCounter == roundLimit) {
+        if (!roundEnded) {
             roundEnded = true;
-            if (userPoints > botPoints) {
-                gameEnded = true;
-                notificationMsg = "Congratulations! You are the king!";
-                availableAction = "Start a new game!";
-            } else if (userPoints < botPoints) {
-                gameEnded = true;
-                notificationMsg = "Oops! You have lost and now the bot is the king...";
-                availableAction = "Start a new game";
-            } else {
-                // We increment roundLimit by 1 so that an extra round is added until
-                // a clear winner occurs
-                roundLimit++;
-                notificationMsg = "Wow! There is a tie and the final round was reached! Adding extra round...";
-                availableAction = "Continue!";
-                roundCounter++;
-                updateUI();
-            }
+            playCurrentRound();
+            availableAction = "Continue!";
+            updateUI();
         } else {
-            if (!roundEnded) {
-                roundEnded = true;
-                playCurrentRound();
-                availableAction = "Continue!";
-                updateUI();
+            roundEnded = false;
+            // Check if the round limit has been reached
+            if (roundCounter == roundLimit) {
+                if (userPoints > botPoints) {
+                    gameEnded = true;
+                    notificationMsg = "Congratulations! You are the king!";
+                    availableAction = "Start a new game!";
+                } else if (userPoints < botPoints) {
+                    gameEnded = true;
+                    notificationMsg = "Oops! You have lost and now the bot is the king...";
+                    availableAction = "Start a new game";
+                } else {
+                    // We increment roundLimit by 1 so that an extra round is added until
+                    // a clear winner occurs
+                    roundLimit++;
+                    notificationMsg = "Wow! There is a tie and the final round was reached! Adding extra round...";
+                    availableAction = "Continue!";
+                    updateUI();
+                }
             } else {
-                roundEnded = false;
                 notificationMsg = "Choose your move:";
                 availableAction = "Submit!";
                 updateUI();
             }
         }
+        // We increment the current round counter
+        roundCounter++;
     }
 
     private void userWinsRound() {
@@ -131,9 +132,6 @@ public class GameActivity extends AppCompatActivity {
                 tieInRound();
             }
         }
-
-        // We increment the current round counter
-        roundCounter++;
     }
 
 
@@ -147,7 +145,7 @@ public class GameActivity extends AppCompatActivity {
         // Check if the game has ended or not
         if (!gameEnded) {
             // We check the round state we are currently in
-            if(roundEnded) {
+            if (roundEnded) {
                 disableUserChoiceIcons();
 
                 // Update the bot's choice icon with the current random choice
@@ -227,16 +225,13 @@ public class GameActivity extends AppCompatActivity {
         });
 
 
-
-
-
         Bundle bundle = getIntent().getExtras();
 //        if(bundle != null)
         roundLimit = bundle.getInt("roundLimit");
         userNameTextView.setText(bundle.getString("userName"));
         botNameTextView.setText("Bot");
 
-        roundCounter = 0;
+        roundCounter = 1;
         userPoints = 0;
         botPoints = 0;
 
@@ -244,7 +239,6 @@ public class GameActivity extends AppCompatActivity {
         gameEnded = false;
 
         updateUI();
-
 
 
     }
