@@ -24,7 +24,7 @@ public class GameActivity extends AppCompatActivity {
     Button actionButton;
 
     int roundLimit;
-    int roundCounter;
+    int roundsCompleted;
     int userPoints;
     int botPoints;
     String availableAction;
@@ -53,10 +53,10 @@ public class GameActivity extends AppCompatActivity {
             playCurrentRound();
             availableAction = "Continue!";
             updateUI();
+            roundsCompleted++;
         } else {
-            roundEnded = false;
             // Check if the round limit has been reached
-            if (roundCounter == roundLimit) {
+            if (roundsCompleted == roundLimit) {
                 if (userPoints > botPoints) {
                     gameEnded = true;
                     notificationMsg = "Congratulations! You are the king!";
@@ -71,16 +71,17 @@ public class GameActivity extends AppCompatActivity {
                     roundLimit++;
                     notificationMsg = "Wow! There is a tie and the final round was reached! Adding extra round...";
                     availableAction = "Continue!";
-                    updateUI();
                 }
+                updateUI();
             } else {
+                // Proceed to the next round
+                roundEnded = false;
                 notificationMsg = "Choose your move:";
                 availableAction = "Submit!";
                 updateUI();
             }
         }
         // We increment the current round counter
-        roundCounter++;
     }
 
     private void userWinsRound() {
@@ -136,7 +137,9 @@ public class GameActivity extends AppCompatActivity {
 
 
     private void updateUI() {
-        roundCounterTextView.setText(String.valueOf(roundCounter));
+        int currentRound = roundsCompleted + 1;
+
+        roundCounterTextView.setText(String.valueOf(currentRound));
         userPointsTextView.setText(String.valueOf(userPoints));
         botPointsTextView.setText(String.valueOf(botPoints));
         notificationTextView.setText(notificationMsg);
@@ -231,7 +234,7 @@ public class GameActivity extends AppCompatActivity {
         userNameTextView.setText(bundle.getString("userName"));
         botNameTextView.setText("Bot");
 
-        roundCounter = 1;
+        roundsCompleted = 0;
         userPoints = 0;
         botPoints = 0;
 
