@@ -6,12 +6,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     Button startGameButton;
     EditText nameInputField;
     EditText pointLimitInputField;
+
+    private boolean checkUserInput(String userName, int roundLimit) {
+        if (userName.length() > 25) {
+            Toast.makeText(getApplicationContext(), "Wow! Try using a shorter name!", Toast.LENGTH_LONG).show();
+            nameInputField.setText("");
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +33,23 @@ public class MainActivity extends AppCompatActivity {
         startGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("userName", nameInputField.getText().toString());
-                bundle.putInt("roundLimit", Integer.parseInt(pointLimitInputField.getText().toString()));
-                intent.putExtras(bundle);
-                startActivity(intent);
-                finish();
+
+                String userName = nameInputField.getText().toString();
+                int roundLimit = Integer.parseInt(pointLimitInputField.getText().toString());
+
+                boolean inputAccepted = checkUserInput(userName, roundLimit);
+
+                if (inputAccepted) {
+                    Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userName", userName);
+                    bundle.putInt("roundLimit", roundLimit);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    finish();
+                } else {
+
+                }
             }
         });
     }
