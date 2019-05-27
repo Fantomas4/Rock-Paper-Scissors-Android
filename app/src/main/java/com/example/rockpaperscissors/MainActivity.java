@@ -24,10 +24,10 @@ public class MainActivity extends AppCompatActivity {
         String notification = "";
 
         if (userName.length() > 25) {
-            notification += "Wow! Try using a shorter name!\n";
+            notification += "- Wow! Try using a shorter name!\n\n";
             nameInputField.setText("");
         } else if (userName.length() == 0) {
-            notification += "You have to input a name!\n";
+            notification += "- You have to input a name!\n\n";
             nameInputField.setText("");
         } else {
             userNameAccepted = true;
@@ -40,13 +40,13 @@ public class MainActivity extends AppCompatActivity {
             int roundLimit;
             roundLimit = Integer.parseInt(roundLimitInput);
             if (roundLimit <= 0) {
-                notification += "No no no! You have to enter a number > 0 \nas a round limit!\n";
+                notification += "- You have to enter a number > 0 \nas a round limit!\n";
                 pointLimitInputField.setText("");
             } else {
                 roundLimitAccepted = true;
             }
         } catch (NumberFormatException e) {
-            notification += "Nope. You have to enter an integer \nas round limit!\n";
+            notification += "- You have to enter an integer \nfor the number of rounds!\n";
         }
 
         notificationMsg.setText(notification);
