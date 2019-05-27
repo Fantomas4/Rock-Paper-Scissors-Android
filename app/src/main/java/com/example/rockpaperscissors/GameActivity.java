@@ -256,7 +256,7 @@ public class GameActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 //        if(bundle != null)
-        roundLimit = bundle.getInt("roundLimit");
+        roundLimit = Integer.parseInt(bundle.getString("roundLimit"));
         userNameTextView.setText(bundle.getString("userName"));
         botNameTextView.setText("Bot");
 
