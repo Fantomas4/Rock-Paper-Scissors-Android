@@ -1,5 +1,6 @@
 package com.example.rockpaperscissors;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +25,7 @@ public class GameActivity extends AppCompatActivity {
     Button actionButton;
 
     int roundLimit;
-    int roundCounter;
+    int roundsCompleted;
     int userPoints;
     int botPoints;
     String availableAction;
@@ -40,6 +41,7 @@ public class GameActivity extends AppCompatActivity {
         paperChoiceImageButton.setEnabled(true);
         scissorsChoiceImageButton.setEnabled(true);
     }
+
     private void disableUserChoiceIcons() {
         rockChoiceImageButton.setEnabled(false);
         paperChoiceImageButton.setEnabled(false);
@@ -47,39 +49,52 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void performUserAction() {
-        // Check if the round limit has been reached
-        if (roundCounter == roundLimit) {
-            roundEnded = true;
-            if (userPoints > botPoints) {
-                gameEnded = true;
-                notificationMsg = "Congratulations! You are the king!";
-                availableAction = "Start a new game!";
-            } else if (userPoints < botPoints) {
-                gameEnded = true;
-                notificationMsg = "Oops! You have lost and now the bot is the king...";
-                availableAction = "Start a new game";
-            } else {
-                // We increment roundLimit by 1 so that an extra round is added until
-                // a clear winner occurs
-                roundLimit++;
-                notificationMsg = "Wow! There is a tie and the final round was reached! Adding extra round...";
+        // Check if the game has ended or not
+        if (!gameEnded) {
+            if (!roundEnded) {
+                // If a game round is currently in process
+                playCurrentRound();
+                roundEnded = true;
                 availableAction = "Continue!";
-                roundCounter++;
+                updateUI();
+
+            } else {
+                // If no round in currently in process
+                roundsCompleted++;
+
+                // Check if the round limit has been reached
+                if (roundsCompleted == roundLimit) {
+                    if (userPoints > botPoints) {
+                        gameEnded = true;
+                        notificationMsg = "Congratulations! You are the king!";
+                        availableAction = "Start a new game!";
+                    } else if (userPoints < botPoints) {
+                        gameEnded = true;
+                        notificationMsg = "Oops! You have lost and now the bot is the king...";
+                        availableAction = "Start a new game";
+                    } else {
+                        // We increment roundLimit by 1 so that an extra round is added until
+                        // a clear winner occurs
+                        roundEnded = false;
+                        roundLimit++;
+                        notificationMsg = "Wow! There is a tie and the final round has been reached, so an extra round has been added!\n\nChoose your move:";
+                        availableAction = "Submit!";
+                    }
+                } else {
+                    // Proceed to the next round
+                    roundEnded = false;
+                    notificationMsg = "Choose your move:";
+                    availableAction = "Submit!";
+                }
                 updateUI();
             }
         } else {
-            if (!roundEnded) {
-                roundEnded = true;
-                playCurrentRound();
-                availableAction = "Continue!";
-                updateUI();
-            } else {
-                roundEnded = false;
-                notificationMsg = "Choose your move:";
-                availableAction = "Submit!";
-                updateUI();
-            }
+            // The user has clicked the "Start new game" button
+            // so we switch to the MainActivity's screen
+            startActivity(new Intent(GameActivity.this, MainActivity.class));
+            finish();
         }
+
     }
 
     private void userWinsRound() {
@@ -131,14 +146,19 @@ public class GameActivity extends AppCompatActivity {
                 tieInRound();
             }
         }
-
-        // We increment the current round counter
-        roundCounter++;
     }
 
 
     private void updateUI() {
-        roundCounterTextView.setText(String.valueOf(roundCounter));
+        int currentRound;
+
+        if (gameEnded) {
+            currentRound = roundsCompleted;
+        } else {
+            currentRound = roundsCompleted + 1;
+        }
+
+        roundCounterTextView.setText(String.valueOf(currentRound));
         userPointsTextView.setText(String.valueOf(userPoints));
         botPointsTextView.setText(String.valueOf(botPoints));
         notificationTextView.setText(notificationMsg);
@@ -147,7 +167,7 @@ public class GameActivity extends AppCompatActivity {
         // Check if the game has ended or not
         if (!gameEnded) {
             // We check the round state we are currently in
-            if(roundEnded) {
+            if (roundEnded) {
                 disableUserChoiceIcons();
 
                 // Update the bot's choice icon with the current random choice
@@ -166,6 +186,10 @@ public class GameActivity extends AppCompatActivity {
 
                 // Update the bot's choice icon with the question mark icon
                 botChoiceImageView.setImageResource(R.drawable.question_mark);
+
+                // Disable the action button currently set to "Submit!"
+                // until the user clicks on one of the available moves
+                actionButton.setEnabled(false);
             }
         } else {
             disableUserChoiceIcons();
@@ -196,6 +220,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 userChoice = PlayerChoice.ROCK;
                 userChoiceImageView.setImageResource(R.drawable.rock_choice);
+                actionButton.setEnabled(true);
             }
         });
         paperChoiceImageButton = findViewById(R.id.paperChoiceButton);
@@ -204,6 +229,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 userChoice = PlayerChoice.PAPER;
                 userChoiceImageView.setImageResource(R.drawable.paper_choice);
+                actionButton.setEnabled(true);
             }
         });
         scissorsChoiceImageButton = findViewById(R.id.scissorsChoiceButton);
@@ -212,6 +238,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 userChoice = PlayerChoice.SCISSORS;
                 userChoiceImageView.setImageResource(R.drawable.scissors_choice);
+                actionButton.setEnabled(true);
             }
         });
 
@@ -227,16 +254,13 @@ public class GameActivity extends AppCompatActivity {
         });
 
 
-
-
-
         Bundle bundle = getIntent().getExtras();
 //        if(bundle != null)
-        roundLimit = bundle.getInt("roundLimit");
+        roundLimit = Integer.parseInt(bundle.getString("roundLimit"));
         userNameTextView.setText(bundle.getString("userName"));
         botNameTextView.setText("Bot");
 
-        roundCounter = 0;
+        roundsCompleted = 0;
         userPoints = 0;
         botPoints = 0;
 
@@ -244,7 +268,6 @@ public class GameActivity extends AppCompatActivity {
         gameEnded = false;
 
         updateUI();
-
 
 
     }
