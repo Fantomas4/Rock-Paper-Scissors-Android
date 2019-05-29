@@ -5,7 +5,8 @@ import java.util.Random;
 public enum PlayerChoice {
     ROCK,
     PAPER,
-    SCISSORS;
+    SCISSORS,
+    NONE;
 
     public static PlayerChoice getRandomChoice() {
         Random random = new Random();
