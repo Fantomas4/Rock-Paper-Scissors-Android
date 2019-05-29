@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
         String notification = "";
 
-        if (userName.length() > 25) {
-            notification += "- Wow! Try using a shorter name!\n\n";
+        if (userName.length() > 8) {
+            notification += "- Wow! Try using a shorter name!\n(Up to 8 characters)\n";
             nameInputField.setText("");
         } else if (userName.length() == 0) {
             notification += "- You have to input a name!\n\n";
