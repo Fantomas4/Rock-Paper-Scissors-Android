@@ -264,7 +264,9 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        // Else, if we enter GameActivity with a saved instance
+        actionButton = findViewById(R.id.actionButton);
+
+        // If we enter GameActivity with a saved instance
         // of the UI
         if (savedInstanceState != null) {
             roundLimit = savedInstanceState.getInt("roundLimit");
@@ -282,10 +284,9 @@ public class GameActivity extends AppCompatActivity {
             gameEnded = savedInstanceState.getBoolean("gameEnded");
 
         } else {
-            // If we enter GameActivity for the first time
+            // Else, if we enter GameActivity for the first time
             notificationMsg = "Choose your move:";
 
-            actionButton = findViewById(R.id.actionButton);
             availableAction = "Submit!";
             actionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
