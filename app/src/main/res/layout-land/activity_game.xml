@@ -114,6 +114,7 @@
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:background="@android:color/transparent"
+                    android:onClick="clickRockChoice"
                     android:scaleType="fitXY"
                     app:srcCompat="@drawable/rock_choice" />
 
@@ -122,6 +123,7 @@
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:background="@android:color/transparent"
+                    android:onClick="clickPaperChoice"
                     android:scaleType="fitXY"
                     app:srcCompat="@drawable/paper_choice" />
 
@@ -130,6 +132,7 @@
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:background="@android:color/transparent"
+                    android:onClick="clickScissorsChoice"
                     android:scaleType="fitXY"
                     app:srcCompat="@drawable/scissors_choice" />
             </LinearLayout>
@@ -192,6 +195,7 @@
         android:layout_width="271dp"
         android:layout_height="0dp"
         android:layout_marginBottom="17dp"
+        android:onClick="clickActionButton"
         android:text="Button"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
