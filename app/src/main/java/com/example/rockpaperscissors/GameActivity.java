@@ -36,6 +36,29 @@ public class GameActivity extends AppCompatActivity {
     boolean roundEnded;
     boolean gameEnded;
 
+
+    public void clickRockChoice(View view) {
+        userChoice = PlayerChoice.ROCK;
+        userChoiceImageView.setImageResource(R.drawable.rock_choice);
+        actionButton.setEnabled(true);
+    }
+
+    public void clickPaperChoice(View view) {
+        userChoice = PlayerChoice.PAPER;
+        userChoiceImageView.setImageResource(R.drawable.paper_choice);
+        actionButton.setEnabled(true);
+    }
+
+    public void clickScissorsChoice(View view) {
+        userChoice = PlayerChoice.SCISSORS;
+        userChoiceImageView.setImageResource(R.drawable.scissors_choice);
+        actionButton.setEnabled(true);
+    }
+
+    public void clickActionButton(View view) {
+        performUserAction();
+    }
+
     private void enableUserChoiceIcons() {
         rockChoiceImageButton.setEnabled(true);
         paperChoiceImageButton.setEnabled(true);
@@ -182,9 +205,11 @@ public class GameActivity extends AppCompatActivity {
                 enableUserChoiceIcons();
 
                 // Update the user's choice icon with the question mark icon
+                userChoice = PlayerChoice.NONE;
                 userChoiceImageView.setImageResource(R.drawable.question_mark);
 
                 // Update the bot's choice icon with the question mark icon
+                botChoice = PlayerChoice.NONE;
                 botChoiceImageView.setImageResource(R.drawable.question_mark);
 
                 // Disable the action button currently set to "Submit!"
@@ -197,6 +222,26 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("roundLimit", roundLimit);
+        outState.putInt("roundsCompleted", roundsCompleted);
+        outState.putInt("userPoints", userPoints);
+        outState.putInt("botPoints", botPoints);
+
+        outState.putString("userChoice", userChoice.name());
+        outState.putString("botChoice", botChoice.name());
+
+        outState.putString("notificationMsg", notificationMsg);
+        outState.putString("availableAction", availableAction);
+
+
+        outState.putBoolean("roundEnded", roundEnded);
+        outState.putBoolean("gameEnded", gameEnded);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,61 +260,55 @@ public class GameActivity extends AppCompatActivity {
         notificationTextView = findViewById(R.id.notificationTextView);
 
         rockChoiceImageButton = findViewById(R.id.rockChoiceButton);
-        rockChoiceImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userChoice = PlayerChoice.ROCK;
-                userChoiceImageView.setImageResource(R.drawable.rock_choice);
-                actionButton.setEnabled(true);
-            }
-        });
         paperChoiceImageButton = findViewById(R.id.paperChoiceButton);
-        paperChoiceImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userChoice = PlayerChoice.PAPER;
-                userChoiceImageView.setImageResource(R.drawable.paper_choice);
-                actionButton.setEnabled(true);
-            }
-        });
         scissorsChoiceImageButton = findViewById(R.id.scissorsChoiceButton);
-        scissorsChoiceImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userChoice = PlayerChoice.SCISSORS;
-                userChoiceImageView.setImageResource(R.drawable.scissors_choice);
-                actionButton.setEnabled(true);
-            }
-        });
-
-        notificationMsg = "Choose your move:";
 
         actionButton = findViewById(R.id.actionButton);
-        availableAction = "Submit!";
-        actionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performUserAction();
-            }
-        });
 
+        // If we enter GameActivity with a saved instance
+        // of the UI
+        if (savedInstanceState != null) {
+            roundLimit = savedInstanceState.getInt("roundLimit");
+            roundsCompleted = savedInstanceState.getInt("roundsCompleted");
+            userPoints = savedInstanceState.getInt("userPoints");
+            botPoints = savedInstanceState.getInt("botPoints");
 
-        Bundle bundle = getIntent().getExtras();
-//        if(bundle != null)
-        roundLimit = Integer.parseInt(bundle.getString("roundLimit"));
-        userNameTextView.setText(bundle.getString("userName"));
-        botNameTextView.setText("Bot");
+            userChoice = PlayerChoice.valueOf(savedInstanceState.getString("userChoice"));
+            botChoice = PlayerChoice.valueOf(savedInstanceState.getString("botChoice"));
 
-        roundsCompleted = 0;
-        userPoints = 0;
-        botPoints = 0;
+            notificationMsg = savedInstanceState.getString("notificationMsg");
+            availableAction = savedInstanceState.getString("availableAction");
 
-        roundEnded = false;
-        gameEnded = false;
+            roundEnded = savedInstanceState.getBoolean("roundEnded");
+            gameEnded = savedInstanceState.getBoolean("gameEnded");
 
+        } else {
+            // Else, if we enter GameActivity for the first time
+            notificationMsg = "Choose your move:";
+
+            availableAction = "Submit!";
+            actionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    performUserAction();
+                }
+            });
+
+            Bundle bundle = getIntent().getExtras();
+            roundLimit = Integer.parseInt(bundle.getString("roundLimit"));
+            userNameTextView.setText(bundle.getString("userName"));
+            botNameTextView.setText("Bot");
+
+            roundsCompleted = 0;
+            userPoints = 0;
+            botPoints = 0;
+
+            userChoice = PlayerChoice.NONE;
+            botChoice = PlayerChoice.NONE;
+
+            roundEnded = false;
+            gameEnded = false;
+        }
         updateUI();
-
-
     }
-
 }
