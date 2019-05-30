@@ -10,6 +10,8 @@ public enum PlayerChoice {
 
     public static PlayerChoice getRandomChoice() {
         Random random = new Random();
-        return values()[random.nextInt(values().length)];
+        // A random choice is picked from ROCK, PAPER, SCISSORS only!
+        // NONE should NOT be picked as a random bot choice!
+        return values()[random.nextInt(values().length-1)];
     }
 }
