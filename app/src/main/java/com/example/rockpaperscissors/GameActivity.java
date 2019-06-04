@@ -1,13 +1,16 @@
 package com.example.rockpaperscissors;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -35,7 +38,26 @@ public class GameActivity extends AppCompatActivity {
     PlayerChoice botChoice;
     boolean roundEnded;
     boolean gameEnded;
+    boolean doubleBackToExitPressedOnce = false;
 
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 
     public void clickRockChoice(View view) {
         userChoice = PlayerChoice.ROCK;
@@ -123,7 +145,6 @@ public class GameActivity extends AppCompatActivity {
     private void userWinsRound() {
         userPoints++;
         notificationMsg = "You won this round!";
-
     }
 
 
@@ -258,6 +279,7 @@ public class GameActivity extends AppCompatActivity {
         botChoiceImageView = findViewById(R.id.botChoiceImageView);
 
         notificationTextView = findViewById(R.id.notificationTextView);
+        notificationTextView.setMovementMethod(new ScrollingMovementMethod());
 
         rockChoiceImageButton = findViewById(R.id.rockChoiceButton);
         paperChoiceImageButton = findViewById(R.id.paperChoiceButton);
