@@ -33,7 +33,6 @@ public class GameActivity extends AppCompatActivity {
     int botPoints;
     String availableAction;
     String notificationMsg;
-
     PlayerChoice userChoice;
     PlayerChoice botChoice;
     boolean roundEnded;
