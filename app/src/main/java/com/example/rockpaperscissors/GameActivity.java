@@ -29,6 +29,8 @@ public class GameActivity extends AppCompatActivity {
 
     int roundLimit;
     int roundsCompleted;
+    String userName;
+    String botName;
     int userPoints;
     int botPoints;
     String availableAction;
@@ -202,7 +204,9 @@ public class GameActivity extends AppCompatActivity {
         }
 
         roundCounterTextView.setText(String.valueOf(currentRound));
+        userNameTextView.setText(userName);
         userPointsTextView.setText(String.valueOf(userPoints));
+        botNameTextView.setText(botName);
         botPointsTextView.setText(String.valueOf(botPoints));
         notificationTextView.setText(notificationMsg);
         actionButton.setText(availableAction);
@@ -249,6 +253,8 @@ public class GameActivity extends AppCompatActivity {
 
         outState.putInt("roundLimit", roundLimit);
         outState.putInt("roundsCompleted", roundsCompleted);
+        outState.putString("userName", userName);
+        outState.putString("botName", botName);
         outState.putInt("userPoints", userPoints);
         outState.putInt("botPoints", botPoints);
 
@@ -291,6 +297,8 @@ public class GameActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             roundLimit = savedInstanceState.getInt("roundLimit");
             roundsCompleted = savedInstanceState.getInt("roundsCompleted");
+            userName = savedInstanceState.getString("userName");
+            botName = savedInstanceState.getString("botName");
             userPoints = savedInstanceState.getInt("userPoints");
             botPoints = savedInstanceState.getInt("botPoints");
 
@@ -308,18 +316,12 @@ public class GameActivity extends AppCompatActivity {
             notificationMsg = "Choose your move:";
 
             availableAction = "Submit!";
-            actionButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    performUserAction();
-                }
-            });
 
             Bundle bundle = getIntent().getExtras();
-            roundLimit = Integer.parseInt(bundle.getString("roundLimit"));
-            userNameTextView.setText(bundle.getString("userName"));
-            botNameTextView.setText("Bot");
 
+            roundLimit = Integer.parseInt(bundle.getString("roundLimit"));
+            userName = bundle.getString("userName");
+            botName = "Bot";
             roundsCompleted = 0;
             userPoints = 0;
             botPoints = 0;
