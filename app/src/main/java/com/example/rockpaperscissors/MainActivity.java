@@ -12,10 +12,10 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText nameInputField;
-    EditText pointLimitInputField;
-    TextView notificationMsg;
-    Button startGameButton;
+    private EditText nameInputField;
+    private EditText pointLimitInputField;
+    private TextView notificationMsg;
+    private Button startGameButton;
 
     boolean doubleBackToExitPressedOnce = false;
 

@@ -14,32 +14,32 @@ import android.widget.Toast;
 
 public class GameActivity extends AppCompatActivity {
 
-    TextView roundCounterTextView;
-    TextView userNameTextView;
-    TextView userPointsTextView;
-    TextView botNameTextView;
-    TextView botPointsTextView;
-    ImageView userChoiceImageView;
-    ImageView botChoiceImageView;
-    TextView notificationTextView;
-    ImageButton rockChoiceImageButton;
-    ImageButton paperChoiceImageButton;
-    ImageButton scissorsChoiceImageButton;
-    Button actionButton;
+    private TextView roundCounterTextView;
+    private TextView userNameTextView;
+    private TextView userPointsTextView;
+    private TextView botNameTextView;
+    private TextView botPointsTextView;
+    private ImageView userChoiceImageView;
+    private ImageView botChoiceImageView;
+    private TextView notificationTextView;
+    private ImageButton rockChoiceImageButton;
+    private ImageButton paperChoiceImageButton;
+    private ImageButton scissorsChoiceImageButton;
+    private Button actionButton;
 
-    int roundLimit;
-    int roundsCompleted;
-    String userName;
-    String botName;
-    int userPoints;
-    int botPoints;
-    String availableAction;
-    String notificationMsg;
-    PlayerChoice userChoice;
-    PlayerChoice botChoice;
-    boolean roundEnded;
-    boolean gameEnded;
-    boolean doubleBackToExitPressedOnce = false;
+    private int roundLimit;
+    private int roundsCompleted;
+    private String userName;
+    private String botName;
+    private int userPoints;
+    private int botPoints;
+    private String availableAction;
+    private String notificationMsg;
+    private PlayerChoice userChoice;
+    private PlayerChoice botChoice;
+    private boolean roundEnded;
+    private boolean gameEnded;
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onBackPressed() {
