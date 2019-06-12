@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * The class used by the GameActivity screen, which is the the screen where the actual game takes place.
+ */
 public class GameActivity extends AppCompatActivity {
 
     private TextView roundCounterTextView;
@@ -41,6 +44,9 @@ public class GameActivity extends AppCompatActivity {
     private boolean gameEnded;
     private boolean doubleBackToExitPressedOnce = false;
 
+    /**
+     * A method used to determine the Android UI's "Back Button" behavior.
+     */
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -60,34 +66,54 @@ public class GameActivity extends AppCompatActivity {
         }, 2000);
     }
 
+    /**
+     * A method called by the UI every time the "Rock" choice image button is clicked
+     */
     public void clickRockChoice(View view) {
         userChoice = PlayerChoice.ROCK;
         userChoiceImageView.setImageResource(R.drawable.rock_choice);
         actionButton.setEnabled(true);
     }
 
+    /**
+     * A method called by the UI every time the "Paper" choice image button is clicked
+     */
     public void clickPaperChoice(View view) {
         userChoice = PlayerChoice.PAPER;
         userChoiceImageView.setImageResource(R.drawable.paper_choice);
         actionButton.setEnabled(true);
     }
 
+    /**
+     * A method called by the UI every time the "Scissors" choice image button is clicked
+     */
     public void clickScissorsChoice(View view) {
         userChoice = PlayerChoice.SCISSORS;
         userChoiceImageView.setImageResource(R.drawable.scissors_choice);
         actionButton.setEnabled(true);
     }
 
+    /**
+     * A method called by the UI every time the action button is clicked
+     */
     public void clickActionButton(View view) {
         performUserAction();
     }
 
+    /**
+     * A method that sets the "setEnabled" property of all the choice image buttons
+     * to true when called, in order to enable them.
+     */
     private void enableUserChoiceIcons() {
         rockChoiceImageButton.setEnabled(true);
         paperChoiceImageButton.setEnabled(true);
         scissorsChoiceImageButton.setEnabled(true);
     }
 
+    /**
+     * A method that sets the "setEnabled" property of all the choice image buttons
+     * to false when called, in order to disable them.
+     */
     private void disableUserChoiceIcons() {
         rockChoiceImageButton.setEnabled(false);
         paperChoiceImageButton.setEnabled(false);
@@ -143,23 +169,36 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * A method called when it is determined that the user is
+     * the winner of the current game round.
+     */
     private void userWinsRound() {
         userPoints++;
         notificationMsg = "You won this round!";
     }
 
-
+    /**
+     * A method called when it is determined that the bot is
+     * the winner of the current game round.
+     */
     private void botWinsRound() {
         botPoints++;
         notificationMsg = "You lost this round!";
     }
 
-
+    /**
+     * A method called when it is determined that there is a
+     * tie between the user and the bot at the current game round.
+     */
     private void tieInRound() {
         notificationMsg = "There is a tie!";
     }
 
-
+    /**
+     * A method called to determine the winner of the current
+     * game round.
+     */
     private void playCurrentRound() {
         // First we get a random choice for the bot
         botChoice = PlayerChoice.getRandomChoice();
@@ -193,7 +232,10 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * A method called to update the UI's elements according to the current
+     * state of the game and its data.
+     */
     private void updateUI() {
         int currentRound;
 

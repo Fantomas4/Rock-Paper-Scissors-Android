@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * The class used by the MainActivity screen, which is the first screen of the application shown to the user.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private EditText nameInputField;
@@ -19,6 +22,10 @@ public class MainActivity extends AppCompatActivity {
 
     boolean doubleBackToExitPressedOnce = false;
 
+
+    /**
+     * A method used to determine the Android UI's "Back Button" behavior.
+     */
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -37,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 2000);
     }
+
+    /**
+     * A method used to check the validity of the user's name and round limit input.
+     * @param userName The name given by the user.
+     * @param roundLimitInput The round limit given by the user.
+     * @return True if the user's input is valid, or false if the user's input is invalid.
+     */
     private boolean checkUserInput(String userName, String roundLimitInput) {
 
         boolean userNameAccepted = false;
@@ -56,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Check if user round limit input is an integer
-
         try {
             int roundLimit;
             roundLimit = Integer.parseInt(roundLimitInput);
@@ -90,12 +103,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String userName = nameInputField.getText().toString();
-//                int roundLimit = Integer.parseInt(pointLimitInputField.getText().toString());
                 String roundLimit = pointLimitInputField.getText().toString();
 
                 boolean inputAccepted = checkUserInput(userName, roundLimit);
 
                 if (inputAccepted) {
+                    // User input is valid so we keep the input data and switch to the GameActivity screen.
                     Intent intent = new Intent(MainActivity.this, GameActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("userName", userName);
