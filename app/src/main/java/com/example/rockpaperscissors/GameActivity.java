@@ -1,76 +1,128 @@
 package com.example.rockpaperscissors;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+/*
+ * The class used by the GameActivity screen, which is the the screen where the actual game takes place.
+ */
 public class GameActivity extends AppCompatActivity {
 
-    TextView roundCounterTextView;
-    TextView userNameTextView;
-    TextView userPointsTextView;
-    TextView botNameTextView;
-    TextView botPointsTextView;
-    ImageView userChoiceImageView;
-    ImageView botChoiceImageView;
-    TextView notificationTextView;
-    ImageButton rockChoiceImageButton;
-    ImageButton paperChoiceImageButton;
-    ImageButton scissorsChoiceImageButton;
-    Button actionButton;
+    private TextView roundCounterTextView;
+    private TextView userNameTextView;
+    private TextView userPointsTextView;
+    private TextView botNameTextView;
+    private TextView botPointsTextView;
+    private ImageView userChoiceImageView;
+    private ImageView botChoiceImageView;
+    private TextView notificationTextView;
+    private ImageButton rockChoiceImageButton;
+    private ImageButton paperChoiceImageButton;
+    private ImageButton scissorsChoiceImageButton;
+    private Button actionButton;
 
-    int roundLimit;
-    int roundsCompleted;
-    int userPoints;
-    int botPoints;
-    String availableAction;
-    String notificationMsg;
+    private boolean doubleBackToExitPressedOnce;    // Stores a boolean representing whether android's "back" button has been pressed once
+    private int roundLimit;                         // Stores an integer representing the round limit (number of game rounds) set by the user
+    private int roundsCompleted;                    // Stores an integer representing the number of game rounds completed
+    private String userName;                        // Stores a String representing the user's name
+    private String botName;                         // Stores a String representing the bot's name
+    private int userPoints;                         // Stores an integer representing the user's game points (number of wins for the current game)
+    private int botPoints;                          // Stores an integer representing the bot's game points (number of wins for the current game)
+    private String availableAction;                 // Stores a String containing the text that will be shown on the UI's actionButton
+    private String notificationMsg;                 // Stores a String containing the text that will be shown on the UI's notification area
+    private PlayerChoice userChoice;                // Stores a PlayerChoice enum option representing the current round's user choice
+    private PlayerChoice botChoice;                 // Stores a PlayerChoice enum option representing the current round's bot choice
+    private boolean roundEnded;                     // Stores a boolean value that is true when the current round has ended
+    private boolean gameEnded;                      // Stores a boolean value that is true when the current game session has ended (there is a final winner)
 
-    PlayerChoice userChoice;
-    PlayerChoice botChoice;
-    boolean roundEnded;
-    boolean gameEnded;
+    /*
+     * A method used to determine the Android UI's "Back Button" behavior.
+     */
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
 
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+
+    /*
+     * A method called by the UI every time the "Rock" choice image button is clicked
+     */
     public void clickRockChoice(View view) {
         userChoice = PlayerChoice.ROCK;
         userChoiceImageView.setImageResource(R.drawable.rock_choice);
         actionButton.setEnabled(true);
     }
 
+    /*
+     * A method called by the UI every time the "Paper" choice image button is clicked
+     */
     public void clickPaperChoice(View view) {
         userChoice = PlayerChoice.PAPER;
         userChoiceImageView.setImageResource(R.drawable.paper_choice);
         actionButton.setEnabled(true);
     }
 
+    /*
+     * A method called by the UI every time the "Scissors" choice image button is clicked
+     */
     public void clickScissorsChoice(View view) {
         userChoice = PlayerChoice.SCISSORS;
         userChoiceImageView.setImageResource(R.drawable.scissors_choice);
         actionButton.setEnabled(true);
     }
 
+    /*
+     * A method called by the UI every time the action button is clicked
+     */
     public void clickActionButton(View view) {
         performUserAction();
     }
 
+    /*
+     * A method that sets the "setEnabled" property of all the choice image buttons
+     * to true when called, in order to enable them.
+     */
     private void enableUserChoiceIcons() {
         rockChoiceImageButton.setEnabled(true);
         paperChoiceImageButton.setEnabled(true);
         scissorsChoiceImageButton.setEnabled(true);
     }
 
+    /*
+     * A method that sets the "setEnabled" property of all the choice image buttons
+     * to false when called, in order to disable them.
+     */
     private void disableUserChoiceIcons() {
         rockChoiceImageButton.setEnabled(false);
         paperChoiceImageButton.setEnabled(false);
         scissorsChoiceImageButton.setEnabled(false);
     }
 
+    /*
+     * Performs the requested user action, according to the current state of the game.
+     */
     private void performUserAction() {
         // Check if the game has ended or not
         if (!gameEnded) {
@@ -120,24 +172,36 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    /*
+     * A method called when it is determined that the user is
+     * the winner of the current game round.
+     */
     private void userWinsRound() {
         userPoints++;
         notificationMsg = "You won this round!";
-
     }
 
-
+    /*
+     * A method called when it is determined that the bot is
+     * the winner of the current game round.
+     */
     private void botWinsRound() {
         botPoints++;
         notificationMsg = "You lost this round!";
     }
 
-
+    /*
+     * A method called when it is determined that there is a
+     * tie between the user and the bot at the current game round.
+     */
     private void tieInRound() {
         notificationMsg = "There is a tie!";
     }
 
-
+    /*
+     * A method called to determine the winner of the current
+     * game round.
+     */
     private void playCurrentRound() {
         // First we get a random choice for the bot
         botChoice = PlayerChoice.getRandomChoice();
@@ -171,7 +235,10 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-
+    /*
+     * A method called to update the UI's elements according to the current
+     * state of the game and its data.
+     */
     private void updateUI() {
         int currentRound;
 
@@ -182,7 +249,9 @@ public class GameActivity extends AppCompatActivity {
         }
 
         roundCounterTextView.setText(String.valueOf(currentRound));
+        userNameTextView.setText(userName);
         userPointsTextView.setText(String.valueOf(userPoints));
+        botNameTextView.setText(botName);
         botPointsTextView.setText(String.valueOf(botPoints));
         notificationTextView.setText(notificationMsg);
         actionButton.setText(availableAction);
@@ -227,8 +296,12 @@ public class GameActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        outState.putBoolean("doubleBackToExitPressedOnce", doubleBackToExitPressedOnce);
+
         outState.putInt("roundLimit", roundLimit);
         outState.putInt("roundsCompleted", roundsCompleted);
+        outState.putString("userName", userName);
+        outState.putString("botName", botName);
         outState.putInt("userPoints", userPoints);
         outState.putInt("botPoints", botPoints);
 
@@ -258,6 +331,7 @@ public class GameActivity extends AppCompatActivity {
         botChoiceImageView = findViewById(R.id.botChoiceImageView);
 
         notificationTextView = findViewById(R.id.notificationTextView);
+        notificationTextView.setMovementMethod(new ScrollingMovementMethod());
 
         rockChoiceImageButton = findViewById(R.id.rockChoiceButton);
         paperChoiceImageButton = findViewById(R.id.paperChoiceButton);
@@ -268,8 +342,12 @@ public class GameActivity extends AppCompatActivity {
         // If we enter GameActivity with a saved instance
         // of the UI
         if (savedInstanceState != null) {
+            doubleBackToExitPressedOnce = savedInstanceState.getBoolean("doubleBackToExitPressedOnce");
+
             roundLimit = savedInstanceState.getInt("roundLimit");
             roundsCompleted = savedInstanceState.getInt("roundsCompleted");
+            userName = savedInstanceState.getString("userName");
+            botName = savedInstanceState.getString("botName");
             userPoints = savedInstanceState.getInt("userPoints");
             botPoints = savedInstanceState.getInt("botPoints");
 
@@ -284,21 +362,17 @@ public class GameActivity extends AppCompatActivity {
 
         } else {
             // Else, if we enter GameActivity for the first time
+            doubleBackToExitPressedOnce = false;
+
             notificationMsg = "Choose your move:";
 
             availableAction = "Submit!";
-            actionButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    performUserAction();
-                }
-            });
 
             Bundle bundle = getIntent().getExtras();
-            roundLimit = Integer.parseInt(bundle.getString("roundLimit"));
-            userNameTextView.setText(bundle.getString("userName"));
-            botNameTextView.setText("Bot");
 
+            roundLimit = Integer.parseInt(bundle.getString("roundLimit"));
+            userName = bundle.getString("userName");
+            botName = "Bot";
             roundsCompleted = 0;
             userPoints = 0;
             botPoints = 0;
