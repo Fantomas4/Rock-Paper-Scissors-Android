@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
+/*
  * The class used by the GameActivity screen, which is the the screen where the actual game takes place.
  */
 public class GameActivity extends AppCompatActivity {
@@ -30,21 +30,21 @@ public class GameActivity extends AppCompatActivity {
     private ImageButton scissorsChoiceImageButton;
     private Button actionButton;
 
-    private int roundLimit;
-    private int roundsCompleted;
-    private String userName;
-    private String botName;
-    private int userPoints;
-    private int botPoints;
-    private String availableAction;
-    private String notificationMsg;
-    private PlayerChoice userChoice;
-    private PlayerChoice botChoice;
-    private boolean roundEnded;
-    private boolean gameEnded;
-    private boolean doubleBackToExitPressedOnce = false;
+    private boolean doubleBackToExitPressedOnce;    // Stores a boolean representing whether android's "back" button has been pressed once
+    private int roundLimit;                         // Stores an integer representing the round limit (number of game rounds) set by the user
+    private int roundsCompleted;                    // Stores an integer representing the number of game rounds completed
+    private String userName;                        // Stores a String representing the user's name
+    private String botName;                         // Stores a String representing the bot's name
+    private int userPoints;                         // Stores an integer representing the user's game points (number of wins for the current game)
+    private int botPoints;                          // Stores an integer representing the bot's game points (number of wins for the current game)
+    private String availableAction;                 // Stores a String containing the text that will be shown on the UI's actionButton
+    private String notificationMsg;                 // Stores a String containing the text that will be shown on the UI's notification area
+    private PlayerChoice userChoice;                // Stores a PlayerChoice enum option representing the current round's user choice
+    private PlayerChoice botChoice;                 // Stores a PlayerChoice enum option representing the current round's bot choice
+    private boolean roundEnded;                     // Stores a boolean value that is true when the current round has ended
+    private boolean gameEnded;                      // Stores a boolean value that is true when the current game session has ended (there is a final winner)
 
-    /**
+    /*
      * A method used to determine the Android UI's "Back Button" behavior.
      */
     @Override
@@ -66,7 +66,7 @@ public class GameActivity extends AppCompatActivity {
         }, 2000);
     }
 
-    /**
+    /*
      * A method called by the UI every time the "Rock" choice image button is clicked
      */
     public void clickRockChoice(View view) {
@@ -75,7 +75,7 @@ public class GameActivity extends AppCompatActivity {
         actionButton.setEnabled(true);
     }
 
-    /**
+    /*
      * A method called by the UI every time the "Paper" choice image button is clicked
      */
     public void clickPaperChoice(View view) {
@@ -84,7 +84,7 @@ public class GameActivity extends AppCompatActivity {
         actionButton.setEnabled(true);
     }
 
-    /**
+    /*
      * A method called by the UI every time the "Scissors" choice image button is clicked
      */
     public void clickScissorsChoice(View view) {
@@ -93,14 +93,14 @@ public class GameActivity extends AppCompatActivity {
         actionButton.setEnabled(true);
     }
 
-    /**
+    /*
      * A method called by the UI every time the action button is clicked
      */
     public void clickActionButton(View view) {
         performUserAction();
     }
 
-    /**
+    /*
      * A method that sets the "setEnabled" property of all the choice image buttons
      * to true when called, in order to enable them.
      */
@@ -110,7 +110,7 @@ public class GameActivity extends AppCompatActivity {
         scissorsChoiceImageButton.setEnabled(true);
     }
 
-    /**
+    /*
      * A method that sets the "setEnabled" property of all the choice image buttons
      * to false when called, in order to disable them.
      */
@@ -120,6 +120,9 @@ public class GameActivity extends AppCompatActivity {
         scissorsChoiceImageButton.setEnabled(false);
     }
 
+    /*
+     * Performs the requested user action, according to the current state of the game.
+     */
     private void performUserAction() {
         // Check if the game has ended or not
         if (!gameEnded) {
@@ -169,7 +172,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    /**
+    /*
      * A method called when it is determined that the user is
      * the winner of the current game round.
      */
@@ -178,7 +181,7 @@ public class GameActivity extends AppCompatActivity {
         notificationMsg = "You won this round!";
     }
 
-    /**
+    /*
      * A method called when it is determined that the bot is
      * the winner of the current game round.
      */
@@ -187,7 +190,7 @@ public class GameActivity extends AppCompatActivity {
         notificationMsg = "You lost this round!";
     }
 
-    /**
+    /*
      * A method called when it is determined that there is a
      * tie between the user and the bot at the current game round.
      */
@@ -195,7 +198,7 @@ public class GameActivity extends AppCompatActivity {
         notificationMsg = "There is a tie!";
     }
 
-    /**
+    /*
      * A method called to determine the winner of the current
      * game round.
      */
@@ -232,7 +235,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    /**
+    /*
      * A method called to update the UI's elements according to the current
      * state of the game and its data.
      */
@@ -293,6 +296,8 @@ public class GameActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        outState.putBoolean("doubleBackToExitPressedOnce", doubleBackToExitPressedOnce);
+
         outState.putInt("roundLimit", roundLimit);
         outState.putInt("roundsCompleted", roundsCompleted);
         outState.putString("userName", userName);
@@ -337,6 +342,8 @@ public class GameActivity extends AppCompatActivity {
         // If we enter GameActivity with a saved instance
         // of the UI
         if (savedInstanceState != null) {
+            doubleBackToExitPressedOnce = savedInstanceState.getBoolean("doubleBackToExitPressedOnce");
+
             roundLimit = savedInstanceState.getInt("roundLimit");
             roundsCompleted = savedInstanceState.getInt("roundsCompleted");
             userName = savedInstanceState.getString("userName");
@@ -355,6 +362,8 @@ public class GameActivity extends AppCompatActivity {
 
         } else {
             // Else, if we enter GameActivity for the first time
+            doubleBackToExitPressedOnce = false;
+
             notificationMsg = "Choose your move:";
 
             availableAction = "Submit!";
