@@ -5,12 +5,11 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
+/*
  * The class used by the MainActivity screen, which is the first screen of the application shown to the user.
  */
 public class MainActivity extends AppCompatActivity {
@@ -18,12 +17,32 @@ public class MainActivity extends AppCompatActivity {
     private EditText nameInputField;
     private EditText pointLimitInputField;
     private TextView notificationMsg;
-    private Button startGameButton;
 
-    boolean doubleBackToExitPressedOnce = false;
+    boolean doubleBackToExitPressedOnce;
 
 
-    /**
+    /*
+     * A method called when the user presses the "Start Game!" button on the UI.
+     */
+    public void clickStartGame(View view) {
+        String userName = nameInputField.getText().toString();
+        String roundLimit = pointLimitInputField.getText().toString();
+
+        boolean inputAccepted = checkUserInput(userName, roundLimit);
+
+        if (inputAccepted) {
+            // User input is valid so we keep the input data and switch to the GameActivity screen.
+            Intent intent = new Intent(MainActivity.this, GameActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("userName", userName);
+            bundle.putString("roundLimit", roundLimit);
+            intent.putExtras(bundle);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    /*
      * A method used to determine the Android UI's "Back Button" behavior.
      */
     @Override
@@ -45,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         }, 2000);
     }
 
-    /**
+    /*
      * A method used to check the validity of the user's name and round limit input.
      * @param userName The name given by the user.
      * @param roundLimitInput The round limit given by the user.
@@ -89,6 +108,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean("doubleBackToExitPressedOnce", doubleBackToExitPressedOnce);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -97,27 +123,12 @@ public class MainActivity extends AppCompatActivity {
         pointLimitInputField = findViewById(R.id.pointLimitInputField);
         notificationMsg = findViewById(R.id.notificationMsg);
 
-        startGameButton = findViewById(R.id.startGameButton);
-        startGameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String userName = nameInputField.getText().toString();
-                String roundLimit = pointLimitInputField.getText().toString();
-
-                boolean inputAccepted = checkUserInput(userName, roundLimit);
-
-                if (inputAccepted) {
-                    // User input is valid so we keep the input data and switch to the GameActivity screen.
-                    Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("userName", userName);
-                    bundle.putString("roundLimit", roundLimit);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
+        // If we enter MainActivity with a saved instance of the UI
+        if (savedInstanceState != null) {
+            doubleBackToExitPressedOnce = savedInstanceState.getBoolean("doubleBackToExitPressedOnce");
+        } else {
+            // Else, if we enter MainActivity for the first time
+            doubleBackToExitPressedOnce = false;
+        }
     }
 }
