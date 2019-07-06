@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
             bundle.putString("roundLimit", roundLimit);
             intent.putExtras(bundle);
             startActivity(intent);
-            finish();
         }
     }
 
